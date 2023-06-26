@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Initialisatie</h1>
+                <p class="lead text-body-secondary">Kies de juiste instellingen voor de start van het experiment.</p>
+                <form action="/" method="post">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="participant" class="form-control" id="floatingInputValue">
+                        <label for="floatingInputValue">Deelnemer ID</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="first_name" class="form-control" id="floatingInputValue">
+                        <label for="floatingInputValue">Naam</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="type" class="form-control" id="floatingInputValue">
+                        <label for="floatingInputValue">Type eerste ronde</label>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Start experiment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <section class="pt-5 text-center container">
+        <div class="row pt-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-bold">Ronde {{ round }} van de 4</h1>
+                {% if group== 'mp' %}
+                    <p>In deze ronde ga je zoeken naar een passende vacature voor {{ first_name }}, een fictieve werkzoekende. Lees hiervoor eerst het CV goed door.<b>In deze situatie is het systeem al bekend met het persoonlijke profiel. Het systeem maakt een voorselectie van vacatures die 'matchen' met expertises, hobby's en interesses.</b></p>
+                    <a href="{{ jobseeker[0].resume }}" target="_blank">Download CV</a><br>
+                    <a href="/zoeken-mp/{{ first_name }}" class="btn btn-primary mt-3" role="button" aria-disabled="true">-> Start met zoeken</a>
+                {% endif %}
+                {% if group== 'zp' %}
+                    <p>In deze ronde ga je zoeken naar een passende vacature voor {{ first_name }}, een fictieve werkzoekende. Lees hiervoor eerst het CV goed door:</p>
+                    <a href="{{ jobseeker[0].resume }}" target="_blank">Download CV</a><br>
+                    <a href="/zoeken-zp" class="btn btn-primary mt-3" role="button" aria-disabled="true">-> Start met zoeken</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+
+
+{% endblock %}

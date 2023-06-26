@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <section class="pt-5 text-center container">
+        <div class="row pt-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-bold">Welkom!</h1>
+                <p class="lead text-body-secondary">Bedankt dat je de tijd hebt vrijgemaakt om deel te nemen aan dit experiment. Je deelname wordt enorm gewaardeerd!</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container px-4 py-2" id="featured-3">
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="feature col px-4">
+                <h3 class="fs-2">Vier rondes</h3>
+                <p>Je gaat straks in vier rondes op verschillende manieren op zoek naar een vacature die past bij het cv en de interesses van iemand die zoekt naar een eerste baan.</p>
+            </div>
+            <div class="feature col px-4">
+                <h3 class="fs-2">Vacature zoeken</h3>
+                <p>Je kunt een zoekbalk gebruiken en de vacatureteksten bekijken door op 'Bekijk' te klikken. Kies uiteindelijk de vacature waarop je zou solliciteren (deze past volgens jou het best bij de werkzoekende). Dit doe je door te klikken op 'Solliciteer'.</p>
+            </div>
+            <div class="feature col px-4">
+                <h3 class="fs-2">Ronde 1</h3>
+                {% if type == "np" %}
+                <p>In ronde 1 ga je zoeken naar een passende vacature voor {{ first_name }}, een fictieve werkzoekende. Lees hiervoor eerst het CV goed door:</p>
+                <a href="{{ jobseeker[0].resume }}" target="_blank">Download CV</a>
+                <p>
+                    <a href="/zoeken-zp" class="btn btn-primary my-2 float-end">-> Starten met zoeken</a>
+                </p>
+                {% endif %}
+                {% if type == "wp" %}
+                <p>In ronde 1 ga je zoeken naar een passende vacature voor {{ first_name }}, een fictieve werkzoekende. Lees hiervoor eerst het CV goed door.<b> In deze situatie is het systeem al bekend met het persoonlijke profiel. Het systeem maakt een voorselectie van vacatures die 'matchen' met expertises, hobby's en interesses.</b></p>
+                <a href="{{ jobseeker[0].resume }}" target="_blank">Download CV</a>
+                <p>
+                    <a href="/zoeken-mp/{{ jobseeker[0].first_name }}" class="btn btn-primary my-2 float-end">-> Starten met zoeken</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

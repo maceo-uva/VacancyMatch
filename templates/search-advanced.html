@@ -1,0 +1,235 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div class="album py-5 bg-body-tertiary">
+
+        <div class="container">
+
+            <form class="d-flex pb-3" role="search" action="/zoeken-mp/{{ first_name }}" method="post">
+                <input class="form-control me-2" name="query" type="search" placeholder="Zoek op functie, opleiding, ..." aria-label="Zoeken">
+                <button class="btn btn-outline-success" type="submit">Zoeken</button>
+            </form>
+
+            <h2 class="mb-4 mt-1">Deze vacatures matchen het meest met je persoonlijke profiel</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% if perfect %}
+                    <div class="col">
+                        <div class="card shadow-sm h-100">
+                            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="height: 40px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px">
+                                <div class="progress-bar bg-success overflow-visible text-light" style="width: {{ perfect[0].matchingp }}%"><b>MATCH MET JE PROFIEL</b></div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ perfect[0].title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary"><i class="bi bi-building-fill"></i> {{ perfect[0].company }}</h6>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ perfect[0].vacancy_id }}">
+                                        Bekijk
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#apply{{ perfect[0].vacancy_id }}">Solliciteer</button>
+                                </div>
+                                <small class="text-body-secondary"><i class="bi bi-geo-alt-fill"></i>&nbsp;{{ perfect[0].location }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal modal-lg fade" id="{{ perfect[0].vacancy_id }}" tabindex="-1" aria-labelledby="{{ perfect[0].vacancy_id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ perfect[0].title }}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>
+                                        <span class="badge bg-primary mb-1"><i class="bi bi-building-fill"></i>&nbsp;{{ perfect[0].company }}</span>
+                                        {% if perfect[0].location %}
+                                            <span class="badge bg-secondary mb-1"><i class="bi bi-geo-alt-fill"></i>&nbsp;{{ perfect[0].location }}</span>
+                                        {% endif %}
+                                        {% if perfect[0].hrs_week %}
+                                            <span class="badge bg-secondary mb-1"><i class="bi bi-calendar-week-fill"></i>&nbsp;{{ perfect[0].hrs_week }} uur/week</span>
+                                        {% endif %}
+                                    </h5>
+                                    {{ perfect[0].text | safe}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#apply{{ perfect[0].vacancy_id }}">Solliciteer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal modal-lg fade" id="apply{{ perfect[0].vacancy_id }}" tabindex="-1" aria-labelledby="{{ perfect[0].vacancy_id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ perfect[0].title }} ({{ perfect[0].vacancy_id }})</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <input class="form-control mb-3" type="text" value="{{ perfect[0].vacancy_id }}" aria-label="readonly input example" readonly>
+                                        <label>"Ik vond dit een fijne manier van zoeken naar een vacature"</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                        <label>“Ik vond dit een efficiente manier van zoeken naar een vacature”</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                        <label>“Ik denk dat ik een vacature heb gekozen die goed matcht”</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                        <label>"Ik heb hobby's, interesses en/of expertises gebruikt bij het zoeken naar deze vacature"</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+                                    <a href="https://docs.google.com/document/d/1I0qD9cu9hMOsKnQCPtIhnfyOny7pjhT2mqxZxFVXjGY/edit?usp=sharing" class="btn btn-primary" role="button" aria-disabled="true">Solliciteer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% for result in results %}
+                    <div class="col">
+                        <div class="card shadow-sm h-100">
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="height: 40px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px">
+                                    <div class="progress-bar bg-warning overflow-visible text-dark" style="width: {{ result.matchingp }}%"><b>MATCH MET JE PROFIEL</b></div>
+                                </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ result.title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary"><i class="bi bi-building-fill"></i> {{ result.company }}</h6>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ result.vacancy_id }}">
+                                        Bekijk
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#apply{{ result.vacancy_id }}">Solliciteer</button>
+                                </div>
+                                <small class="text-body-secondary"><i class="bi bi-geo-alt-fill"></i>&nbsp;{{ result.location }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal modal-lg fade" id="{{ result.vacancy_id }}" tabindex="-1" aria-labelledby="{{ result.vacancy_id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ result.title }}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>
+                                        <span class="badge bg-primary mb-1"><i class="bi bi-building-fill"></i>&nbsp;{{ result.company }}</span>
+                                        {% if result.location %}
+                                            <span class="badge bg-secondary mb-1"><i class="bi bi-geo-alt-fill"></i>&nbsp;{{ result.location }}</span>
+                                        {% endif %}
+                                        {% if result.hrs_week %}
+                                            <span class="badge bg-secondary mb-1"><i class="bi bi-calendar-week-fill"></i>&nbsp;{{ result.hrs_week }} uur/week</span>
+                                        {% endif %}
+                                    </h5>
+                                    {{ result.text | safe}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#apply{{ result.vacancy_id }}">Solliciteer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal modal-lg fade" id="apply{{ result.vacancy_id }}" tabindex="-1" aria-labelledby="{{ result.vacancy_id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ result.title }} ({{ result.vacancy_id }})</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <input class="form-control mb-3" type="text" value="{{ result.vacancy_id }}" aria-label="readonly input example" readonly>
+                                        <label>"Ik vond dit een fijne manier van zoeken naar een vacature"</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                        <label>“Ik vond dit een efficiente manier van zoeken naar een vacature”</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                        <label>“Ik denk dat ik een vacature heb gekozen die goed matcht”</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                        <label>"Ik heb hobby's, interesses en/of expertises gebruikt bij het zoeken naar deze vacature"</label>
+                                        <select class="form-select mt-1 mb-3" aria-label="Default select example">
+                                            <option selected>Kies een optie</option>
+                                            <option value="1">Helemaal mee oneens</option>
+                                            <option value="2">Mee oneens</option>
+                                            <option value="3">Niet mee oneens en niet mee eens</option>
+                                            <option value="4">Mee eens</option>
+                                            <option value="5">Helemaal mee eens</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+                                    <a href="https://docs.google.com/document/d/1I0qD9cu9hMOsKnQCPtIhnfyOny7pjhT2mqxZxFVXjGY/edit?usp=sharing" class="btn btn-primary" role="button" aria-disabled="true">Solliciteer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}`
